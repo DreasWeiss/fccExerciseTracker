@@ -14,7 +14,7 @@
 
 ### Tests
 
-- [] You should provide your own project, not the example URL.
+- [x] You should provide your own project, not the example URL.
 - [] You can POST to /api/users with form data username to create a new user.
 - [] The returned response from POST /api/users with form data username will be an object with username and _id properties.
 - [] You can make a GET request to /api/users to get a list of all users.
