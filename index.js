@@ -2,15 +2,28 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 const app = express();
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+const personSchema = new Schema({ username: String });
+const Person = mongoose.model('Person', personSchema);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
+});
+
+app.post('/api/users', async (req, res) => {
+  try {
+    const newPerson = new Person({ username: req.body.username });
+    await newPerson.save();
+    res.json({ 'username': newPerson.username, '_id': newPerson.id });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 
