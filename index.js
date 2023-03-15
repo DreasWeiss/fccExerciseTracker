@@ -41,7 +41,37 @@ app.get('/', (req, res) => {
 
 // API endpoints
 // POST /api/users
+app.post('/api/users', (req, res) => {
+  try {
+    UserInfo.find({ 'username': req.body.username }, (err, userData) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (userData.length === 0) {
+          const u = new UserInfo({
+            '_id': req.body.id,
+            'username': req.body.username
+          })
+          u.save((err, data) => {
+            if (err) {
+              console.log('Error saving data =>', err);
+            } else {
+              res.json({
+                '_id': data.id,
+                'username': data.username
+              })
+            }
+          })
+        } else {
+          res.send('Username already exists')
+        }
+      }
+    });
 
+  } catch (err) {
+    console.log(err);
+  }
+})
 
 
 // MongoDB connection
