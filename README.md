@@ -12,6 +12,39 @@
 >Select Use run command and click the Done button.
 >When you are done, make sure a working demo of your project is hosted somewhere public. Then submit the URL to it in the Solution Link field. Optionally, also submit a link to your project's source code in the GitHub Link field.
 
+Your responses should have the following structures.
+```
+Exercise:
+
+{
+  username: "fcc_test",
+  description: "test",
+  duration: 60,
+  date: "Mon Jan 01 1990",
+  _id: "5fb5853f734231456ccb3b05"
+}
+User:
+
+{
+  username: "fcc_test",
+  _id: "5fb5853f734231456ccb3b05"
+}
+Log:
+
+{
+  username: "fcc_test",
+  count: 1,
+  _id: "5fb5853f734231456ccb3b05",
+  log: [{
+    description: "test",
+    duration: 60,
+    date: "Mon Jan 01 1990",
+  }]
+}
+```
+Hint: For the date property, the toDateString method of the Date API can be used to achieve the expected output.
+
+
 ### TASKS
 - [x] You should provide your own project, not the example URL.
 - [x] You can POST to /api/users with form data username to create a new user.
