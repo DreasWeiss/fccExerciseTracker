@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose');
 const app = express();
 
+
 // Schemas
 const userSchema = new Schema({
   'username': String
@@ -22,6 +23,7 @@ const logSchema = new Schema({
   'count': Number,
   'log': Array,
 });
+
 
 // Models
 const UserInfo = mongoose.model('userInfo', userSchema);
@@ -122,6 +124,78 @@ app.post('/api/users/:_id/exercises', (req, res) => {
     console.log(err);
   }
 })
+
+// GET /api/users/:_id/logs?[from][&to][&limit]
+app.get('/api/users/:_id/logs', (req, res) => {
+  const { from, to, limit } = req.query;
+  let idJson = { 'id': req.params._id };
+  let idToCheck = idJson.id;
+
+  UserInfo.findById(idToCheck, (err, data) => {
+    var query = {
+      'username': data.username
+    }
+
+    if (from !== undefined && to === undefined) {
+      query.date = { $gte: new Date(from) }
+    } else if (to !== undefined && from === undefined) {
+      query.date = { $lte: new Date(to) }
+    } else if (to !== undefined && from !== undefined) {
+      query.date = { $gte: new Date(from), $lte: new Date(to) }
+    }
+
+    let limitChecker = (limit) => {
+      let maxLimit = 100;
+      if (limit) {
+        return limit;
+      } else {
+        return maxLimit;
+      }
+    }
+
+    if (err) {
+      console.log(err);
+    } else {
+      ExerciseInfo.find((query), null, { limit: limitChecker(+limit) }, (err, data) => {
+        let loggedArr = [];
+        if (err) {
+          console.log(err);
+        } else {
+          let documents = data;
+          loggedArr = documents.map(i => {
+            return {
+              'description': i.description,
+              'duration': i.duration,
+              'log': i.date.toDateString(),
+            }
+          })
+
+          const l = new LogInfo({
+            'username': data.username,
+            'count': loggedArr.length,
+            'log': loggedArr
+          })
+
+          l.save((err, data) => {
+            if (err) {
+              console.log(err)
+            } else {
+              res.json({
+                username: data.username,
+                count: data.count,
+                _id: idToCheck,
+                log: loggedArr
+              })
+            }
+          })
+        }
+      })
+    }
+
+  })
+
+})
+
 
 // MongoDB connection
 const mongoDbUri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPAS}@freecodecampexercisetra.p4prxcl.mongodb.net/exerciseTracker`;
