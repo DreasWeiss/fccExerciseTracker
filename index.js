@@ -32,10 +32,19 @@ const LogInfo = mongoose.model('logInfo', logSchema);
 // Moddleware
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static('public'));
 
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/views/index.html');
+});
+
+// API endpoints
+// POST /api/users
 
 
+
+// MongoDB connection
 const mongoDbUri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPAS}@freecodecampexercisetra.p4prxcl.mongodb.net/exerciseTracker`;
 const connectDb = async () => {
   try {
