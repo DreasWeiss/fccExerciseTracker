@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+
 // API endpoints
 // POST /api/users
 app.post('/api/users', (req, res) => {
@@ -73,6 +74,54 @@ app.post('/api/users', (req, res) => {
   }
 })
 
+//POST /api/users/:_id/exercises
+// !!!!! work with date 
+app.post('/api/users/:_id/exercises', (req, res) => {
+  try {
+    let idJson = { 'id': req.params._id };
+    let checkedDate = new Date(req.body.date);
+    let idToCheck = idJson.id;
+
+    let noDateHandler = () => {
+      if (checkedDate instanceof Date && !isNaN(checkedDate)) {
+        return checkedDate;
+      } else {
+        checkedDate = new Date();
+      }
+    }
+
+    UserInfo.findById(idToCheck, (err, data) => {
+      noDateHandler(checkedDate);
+      if (err) {
+        console.log(err);
+      } else {
+        const e = new ExerciseInfo({
+          'username': data.username,
+          'duration': req.body.duration,
+          'description': req.body.description,
+          'date': checkedDate.toDateString()
+        })
+
+        e.save((err, data) => {
+          if (err) {
+            console.log('Error saving exercises =>', err);
+          } else {
+            console.log('Exercises saved succesfully')
+            res.json({
+              'username': data.username,
+              'description': data.description,
+              'duration': data.duration,
+              'date': data.date.toDateString(),
+              '_id': idToCheck
+            })
+          }
+        })
+      }
+    })
+  } catch (err) {
+    console.log(err);
+  }
+})
 
 // MongoDB connection
 const mongoDbUri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPAS}@freecodecampexercisetra.p4prxcl.mongodb.net/exerciseTracker`;
