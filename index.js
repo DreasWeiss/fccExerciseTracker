@@ -76,6 +76,25 @@ app.post('/api/users', (req, res) => {
   }
 })
 
+// GET /api/users
+app.get('/api/users', (req, res) => {
+  UserInfo.find({}, (err, users) => {
+    if (err) {
+      console.log(err);
+      res.json({
+        message: 'Getting users list - FAILED'
+      })
+    }
+
+    if (users.length === 0) {
+      res.json({
+        message: 'No users in db'
+      })
+    }
+    res.json(users);
+  })
+})
+
 //POST /api/users/:_id/exercises
 // !!!!! work with date 
 app.post('/api/users/:_id/exercises', (req, res) => {

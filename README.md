@@ -50,9 +50,9 @@ Hint: For the date property, the toDateString method of the Date API can be used
 - [x] You should provide your own project, not the example URL.
 - [x] You can POST to /api/users with form data username to create a new user.
 - [x] The returned response from POST /api/users with form data username will be an object with username and _id properties.
-- [ ] You can make a GET request to /api/users to get a list of all users.
-- [ ] The GET request to /api/users returns an array.
-- [ ] Each element in the array returned from GET /api/users is an object literal containing a user's username and _id.
+- [x] You can make a GET request to /api/users to get a list of all users.
+- [x] The GET request to /api/users returns an array.
+- [x] Each element in the array returned from GET /api/users is an object literal containing a user's username and _id.
 - [x] You can POST to /api/users/:_id/exercises with form data description, duration, and optionally date. If no date is supplied, the current date will be used.
 - [x] The response returned from POST /api/users/:_id/exercises will be the user object with the exercise fields added.
 - [ ] You can make a GET request to /api/users/:_id/logs to retrieve a full exercise log of any user.
