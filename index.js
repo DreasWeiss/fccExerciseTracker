@@ -196,7 +196,8 @@ app.get('/api/users/:_id/logs', (req, res) => {
 
 
 // MongoDB connection
-const mongoDbUri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPAS}@freecodecampexercisetra.p4prxcl.mongodb.net/exerciseTracker`;
+// const mongoDbUri = `mongodb+srv://${process.env.MONGOUSER}:${process.env.MONGOPAS}@freecodecampexercisetra.p4prxcl.mongodb.net/exerciseTracker`;
+const mongoDbUri = process.env.MONGOURI;
 const connectDb = async () => {
   try {
     mongoose.set('strictQuery', true);

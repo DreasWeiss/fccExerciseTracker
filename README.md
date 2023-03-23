@@ -99,11 +99,30 @@ touch .env
 in **.env** file:
 ```
 PORT=
-MONGOPAS=
-MONGOUSER=
+MONGOURI=
 ```  
+You should input your data without spaces (ex. PORT=1234)
   - **PORT** - is the Preferred Port for Working Application
-  - **MONGOPAS** - 
-  - **MONGOUSER** - 
-  - **MONGOURI** - 
+  - **MONGOURI** - MongoURI (also known as MongoDB URI) is an object-oriented programming language designed to work with the popular NoSQL database, MongoDB. It provides a high level of abstraction and allows developers to easily query or manipulate data from within their applications without having direct access to the underlying API.
 
+<details>
+   <summary><b> How to get MONGOURI </b></summary>
+
+  [Link to mongo db atlas](https://www.mongodb.com/atlas/database)
+  1.  ![1 step](./docaImg/1.png)
+  2.  ![2 step](./docaImg/2.png)
+  3.  ![3 step](./docaImg/3.png)
+
+</details>
+
+you should make some corrections in copied text from mongobd atlas:
+```
+we have something like this:
+mongodb+srv://<username>:<password>@fccextra.p4prcl.mongodb.net/?retryWrites=true&w=majority
+we need to remove all after ? and add the title you want
+mongodb+srv://<username>:<password>@fccextra.p4prcl.mongodb.net/exerciseTracker
+```
+Then
+```
+nodemon index.js
+```
