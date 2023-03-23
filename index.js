@@ -4,30 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 
-
-// Schemas
-const userSchema = new mongoose.Schema({
-  'username': String
-});
-
-const exerciseSchema = new mongoose.Schema({
-  'username': String,
-  'date': Date,
-  'duration': { type: Number, required: true },
-  'description': { type: String, required: true }
-});
-
-const logSchema = new mongoose.Schema({
-  'username': String,
-  'count': Number,
-  'log': Array,
-});
-
-
-// Models
-const UserInfo = mongoose.model('userInfo', userSchema);
-const ExerciseInfo = mongoose.model('exerciseInfo', exerciseSchema);
-const LogInfo = mongoose.model('logInfo', logSchema);
+const UserInfo = require('./models/userInfo');
+const ExerciseInfo = require('./models/exerciseInfo');
 
 
 // Moddleware
