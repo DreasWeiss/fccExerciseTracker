@@ -99,6 +99,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
       } else {
         const e = new ExerciseInfo({
           'username': data.username,
+          'userId': idToCheck,
           'duration': req.body.duration,
           'description': req.body.description,
           'date': checkedDate.toDateString()
@@ -126,72 +127,42 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 })
 
 // GET /api/users/:_id/logs?[from][&to][&limit]
-app.get('/api/users/:_id/logs', (req, res) => {
-  const { from, to, limit } = req.query;
-  let idJson = { 'id': req.params._id };
-  let idToCheck = idJson.id;
+app.get('/api/users/:_id/logs', async (req, res) => {
+  try {
+    const userId = req.params._id;
+    const from = req.query.from || new Date(0).toDateString();
+    const to = req.query.to || new Date(Date.now()).toDateString();
+    const limit = req.query.limit || 0;
 
-  UserInfo.findById(idToCheck, (err, data) => {
-    var query = {
-      'username': data.username
-    }
+    let user = await UserInfo.findById(userId).exec();
 
-    if (from !== undefined && to === undefined) {
-      query.date = { $gte: new Date(from) }
-    } else if (to !== undefined && from === undefined) {
-      query.date = { $lte: new Date(to) }
-    } else if (to !== undefined && from !== undefined) {
-      query.date = { $gte: new Date(from), $lte: new Date(to) }
-    }
-
-    let limitChecker = (limit) => {
-      let maxLimit = 100;
-      if (limit) {
-        return limit;
-      } else {
-        return maxLimit;
+    let exercises = await ExerciseInfo.find({
+      userId: userId,
+      date: {
+        $gte: from,
+        $lte: to
       }
-    }
+    }).select('description duration date')
+      .limit(limit)
+      .exec();
 
-    if (err) {
-      console.log(err);
-    } else {
-      ExerciseInfo.find((query), null, { limit: limitChecker(+limit) }, (err, data) => {
-        let loggedArr = [];
-        if (err) {
-          console.log(err);
-        } else {
-          let documents = data;
-          loggedArr = documents.map(i => {
-            return {
-              'description': i.description,
-              'duration': i.duration,
-              'log': i.date.toDateString(),
-            }
-          })
+    let parseDatesLog = exercises.map((exercise) => {
+      return {
+        description: exercise.description,
+        duration: exercise.duration,
+        date: exercise.date
+      }
+    });
 
-          const l = new LogInfo({
-            'username': data.username,
-            'count': loggedArr.length,
-            'log': loggedArr
-          })
-
-          l.save((err, data) => {
-            if (err) {
-              console.log(err)
-            } else {
-              res.json({
-                username: data.username,
-                count: data.count,
-                _id: idToCheck,
-                log: loggedArr
-              })
-            }
-          })
-        }
-      })
-    }
-  })
+    res.json({
+      _id: user._id,
+      username: user.username,
+      count: parseDatesLog.length,
+      log: parseDatesLog
+    });
+  } catch (err) {
+    console.log(err);
+  }
 })
 
 
