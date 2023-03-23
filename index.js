@@ -77,14 +77,14 @@ app.get('/api/users', (req, res) => {
 })
 
 //POST /api/users/:_id/exercises
-// !!!!! work with date 
 app.post('/api/users/:_id/exercises', (req, res) => {
   try {
     let idJson = { 'id': req.params._id };
-    let checkedDate = new Date(req.body.date);
+    let checkedDate = req.body.date;
     let idToCheck = idJson.id;
 
     let noDateHandler = () => {
+      checkedDate = new Date(checkedDate);
       if (checkedDate instanceof Date && !isNaN(checkedDate)) {
         return checkedDate;
       } else {
