@@ -105,6 +105,8 @@ You should input your data without spaces (ex. PORT=1234)
   - **PORT** - is the Preferred Port for Working Application
   - **MONGOURI** - MongoURI (also known as MongoDB URI) is an object-oriented programming language designed to work with the popular NoSQL database, MongoDB. It provides a high level of abstraction and allows developers to easily query or manipulate data from within their applications without having direct access to the underlying API.
 
+***IF YOU ARE WORKING FORM RUSSIA OR SOME OTHER CONTRY THAT MONGO ATLAS IS BLOCKING YOU SHOULD USE VPN OR PROXI***
+
 <details>
    <summary><b> How to get MONGOURI </b></summary>
 
