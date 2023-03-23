@@ -2,23 +2,22 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const { Schema, model } = require('mongoose');
 const app = express();
 
 
 // Schemas
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   'username': String
 });
 
-const exerciseSchema = new Schema({
+const exerciseSchema = new mongoose.Schema({
   'username': String,
   'date': Date,
-  'duration': Number,
-  'description': String
+  'duration': { type: Number, required: true },
+  'description': { type: String, required: true }
 });
 
-const logSchema = new Schema({
+const logSchema = new mongoose.Schema({
   'username': String,
   'count': Number,
   'log': Array,
