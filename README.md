@@ -83,7 +83,7 @@ Hint: For the date property, the toDateString method of the Date API can be used
 - [x] Each item in the log array that is returned from GET /api/users/:_id/logs is an object that should have a description, duration, and date properties.
 - [x] The description property of any object in the log array that is returned from GET /api/users/:_id/logs should be a string.
 - [x] The duration property of any object in the log array that is returned from GET /api/users/:_id/logs should be a number.
-- [ ] The date property of any object in the log array that is returned from GET /api/users/:_id/logs should be a string. Use the dateString format of the Date API.
+- [x] The date property of any object in the log array that is returned from GET /api/users/:_id/logs should be a string. Use the dateString format of the Date API.
 - [x] You can add from, to and limit parameters to a GET /api/users/:_id/logs request to retrieve part of the log of any user. from and to are dates in yyyy-mm-dd format. limit is an integer of how many logs to send back.
 </details>
 
@@ -128,3 +128,4 @@ Then
 ```
 nodemon index.js
 ```
+![Done](./docaImg/final.png)
